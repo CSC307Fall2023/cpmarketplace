@@ -35,31 +35,59 @@ export default function ToDos() {
         }
     }
 
-    function removeTodo({ index }) {
-        setTodos(todos.filter((v,idx) => idx!==index));
+    async function removeTodo({ index, id }) {
+        const response = await fetch(`/api/todos/${id}`, {
+            method: "DELETE"
+        });
+    
+        if (response.ok) {
+            setTodos(todos.filter((_, idx) => idx !== index));
+        }
     }
-
+    
+    async function toggleTodoDone(index, id, doneStatus) {
+        const response = await fetch(`/api/todos/${id}`, {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ done: !doneStatus })
+        });
+    
+        if (response.ok) {
+            const updatedTodo = await response.json();
+            const newTodos = [...todos];
+            newTodos[index] = updatedTodo;
+            setTodos(newTodos);
+        }
+    }
+    
     useEffect(() => {
-        fetch("/api/todos", { method: "get" }).then((response) => response.ok && response.json()).then(
-            todos => {
+        fetch("/api/todos", { method: "get" })
+            .then((response) => response.ok && response.json())
+            .then(todos => {
                 todos && setTodos(todos);
                 setIsLoading(false);
-            }
-        );
+            });
     }, []);
+    
 
     const loadingItems = <CircularProgress/>;
 
     const toDoItems = isLoading ? loadingItems : todos.map((todo, idx) => {
         return <ListItem key={idx} secondaryAction={
-            <IconButton edge="end" onClick={() => removeTodo({index: idx})}><DeleteForever/></IconButton>   
-        }>  
+            <IconButton edge="end" onClick={() => removeTodo({index: idx, id: todo.id})}>
+                <DeleteForever/>
+            </IconButton>
+        }> 
             <ListItemButton>
-                <ListItemIcon>
-                    <Checkbox checked={todo.done} disableRipple/>
-                </ListItemIcon>
-                <ListItemText primary={todo.value}/>
-            </ListItemButton>
+        <ListItemIcon>
+            <Checkbox 
+                checked={todo.done}
+                disableRipple
+                onClick={() => toggleTodoDone(idx, todo.id, todo.done)}
+            />
+        </ListItemIcon>
+        <ListItemText primary={todo.value}/>
+    </ListItemButton>
         </ListItem>;
     });
 
