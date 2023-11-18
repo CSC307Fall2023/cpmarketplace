@@ -30,12 +30,13 @@ const Categories = () => {
         {categories.map((category, index) => (
           <Chip
             key={index}
+            color='success'
             label={category}
             onClick={() => handleCategoryClick(category)}
             sx={{
               fontSize: '0.875rem',
               fontWeight: 'bold',
-              backgroundColor: '#f5f5f5',
+              // backgroundColor: '#f5f5f5',
               color: '#2B7257', // Use the color for text
               // borderColor: '#2B7257', // Use the color for border
               // '&:hover': {

@@ -2,29 +2,28 @@ const { faker } = require("@faker-js/faker");
 const { db, admin } = require("../firebaseAdminConfig");
 
 // Define the categories
-const categories = [
-  "Furniture",
-  "Electronics",
-  "School Supplies",
-  "Home Decor",
-  "Clothing and Accessories",
-  "Appliances",
-  "Bicycles and Transportation",
-  "Textbooks",
-  "Sports and Fitness Equipment",
-  "Home Office",
-  "Miscellaneous",
-];
+// Define the categories and specific item types for each category
+const categoryItemTypes = {
+  "Furniture": ["Chair", "Sofa", "Bed", "Table", "Dresser"],
+  "Electronics": ["Laptop", "Smartphone", "Headphones", "Camera", "Tablet"],
+  "School Supplies": ["Notebook", "Pen", "Backpack", "Calculator", "Binder"],
+  "Home Decor": ["Vase", "Lamp", "Rug", "Curtain", "Wall Art"],
+  // Add other categories and their specific item types here
+};
+
+const categories = Object.keys(categoryItemTypes);
 
 const generateFakeData = async () => {
   const listingsCollection = db.collection("listings");
 
   for (let i = 0; i < 100; i++) {
     const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    const itemTypes = categoryItemTypes[randomCategory];
+    const randomItemType = itemTypes[Math.floor(Math.random() * itemTypes.length)];
 
-    // Adjusted for dynamic category
     const description = `Item type: ${faker.commerce.productMaterial()}, Features: ${faker.commerce.productAdjective()}`;
-    const title = `${randomCategory} - ${faker.commerce.productName()}`;
+    const title = `${randomCategory} - ${randomItemType} - ${faker.commerce.productName()}`;
+
 
     // Generate a random price, including the possibility of being free ($0)
     const randomPrice = faker.datatype.boolean() ? 0 : faker.commerce.price(50, 500);

@@ -14,6 +14,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import SchoolIcon from "@mui/icons-material/School";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import moment from "moment"; // Import moment library
+import Truncate from "react-truncate";
 
 function ListingCard({
   title,
@@ -61,8 +62,15 @@ function ListingCard({
   };
 
   const formatLocation = (locationString) => {
-    const parts = locationString.split(", ");
-    return parts.length > 2 ? `${parts[1]}, ${parts[2]}` : locationString;
+    // Remove any numeric ZIP code part from the end of the location string
+    return locationString.replace(/,?\s+\d+(-\d+)?$/, "");
+  };
+
+  // Truncate function for text
+  const truncateText = (text, maxLength) => {
+    return text.length > maxLength
+      ? text.substring(0, maxLength) + "..."
+      : text;
   };
 
   return (
@@ -105,15 +113,19 @@ function ListingCard({
       </Box>
 
       <Box sx={{ padding: 2, flexGrow: 1 }}>
-        <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-          {title}
+        <Typography variant="h6" sx={{ fontWeight: "bold", fontSize:'1.1rem'}}>
+          <Truncate lines={1} ellipsis={<span>...</span>}>
+            {title}
+          </Truncate>
         </Typography>
         <Typography
           variant="subtitle2"
           color="textSecondary"
           sx={{ marginBottom: 1 }}
         >
-          {description}
+          <Truncate lines={2} ellipsis={<span>...</span>}>
+            {description}
+          </Truncate>
         </Typography>
         <Typography
           variant="body2"
@@ -151,31 +163,36 @@ function ListingCard({
           )}
         </Typography>
 
-        {studentVerification && (
-          <Badge
-            badgeContent={<SchoolIcon color="primary" />}
-            sx={{ marginRight: 4 }}
-            anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            {/* This empty Box acts as a placeholder for the badge to position the SchoolIcon */}
             <Box />
-          </Badge>
-        )}
       </Stack>
 
-      <Box sx={{ padding: 2, display: "flex", alignItems: "center" }}>
-        <LocationOnIcon fontSize="small" color="primary" />
-        <Typography
-          variant="caption"
-          color="textSecondary"
-          sx={{ marginLeft: 1 }}
-        >
-          {formatLocation(location)}
-        </Typography>
-      </Box>
+      <Box sx={{ padding: 2, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+  <Box sx={{ display: "flex", alignItems: "center" }}>
+    <LocationOnIcon fontSize="small" color="primary" />
+    <Typography
+      variant="caption"
+      color="textSecondary"
+      sx={{ marginLeft: 1 }}
+    >
+      {formatLocation(location)}
+    </Typography>
+  </Box>
+
+  {studentVerification && (
+    <Badge
+      sx={{ marginRight: 2 }}
+      badgeContent={<SchoolIcon color="primary" />}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+    >
+      {/* This empty Box acts as a placeholder for the badge to position the SchoolIcon */}
+      <Box />
+    </Badge>
+  )}
+</Box>
+
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Price History</DialogTitle>

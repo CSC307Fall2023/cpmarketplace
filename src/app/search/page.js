@@ -26,12 +26,11 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState({
-    sort: '',
+    sort: "",
     radius: 5,
     verified: false,
   });
   const itemsPerPage = 20;
-  
 
   useEffect(() => {
     const searchQuery = searchParams.get("query");
@@ -83,36 +82,72 @@ const SearchPage = () => {
   };
 
   const passesFilters = (data, searchTerm) => {
-    const searchMatch = data.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      data.category.toLowerCase().includes(searchTerm.toLowerCase());
+    // Tokenization of the search term and the fields
+    const tokens = searchTerm.toLowerCase().split(/\s+/);
+    const descriptionTokens = data.description.toLowerCase().split(/\s+/);
+    const titleTokens = data.title.toLowerCase().split(/\s+/);
+    const categoryTokens = data.category.toLowerCase().split(/\s+/);
 
-    const verifiedMatch = !filters.verified || (filters.verified && data.studentVerification);
+    // Fuzzy Matching Logic (placeholder for actual implementation)
+    const searchMatch = tokens.some(
+      (token) =>
+        descriptionTokens.includes(token) ||
+        titleTokens.includes(token) ||
+        categoryTokens.includes(token)
+    );
 
-    // We assume `data.location` is a string, you will need to implement your own logic
-    // to handle location based filtering if `data.location` is an object or another type
-    const locationMatch = true; // Implement location-based matching
+    // Existing verified match logic
+    const verifiedMatch =
+      !filters.verified || (filters.verified && data.studentVerification);
 
-    return searchMatch && verifiedMatch && locationMatch;
+    // Placeholder for location matching logic
+
+    return searchMatch && verifiedMatch /* && locationMatch */;
   };
 
   const applyAdditionalFilters = (results) => {
     // Sort by price
-    if (filters.sort === 'priceLowest') {
+    if (filters.sort === "priceLowest") {
       results.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-    } else if (filters.sort === 'priceHighest') {
+    } else if (filters.sort === "priceHighest") {
       results.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
 
     // Sort by date if 'newest' is selected
-    if (filters.sort === 'newest') {
+    if (filters.sort === "newest") {
       results.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
 
-    // Implement radius-based filtering logic
+    // Implement a scoring system for ranking results
+    results.forEach((result) => {
+      let score = 0;
+      // Increase score for title match, category match, etc.
+      if (
+        result.title
+          .toLowerCase()
+          .includes(searchParams.get("query").toLowerCase())
+      )
+        score += 3;
+      if (
+        result.category
+          .toLowerCase()
+          .includes(searchParams.get("query").toLowerCase())
+      )
+        score += 2;
+      if (
+        result.description
+          .toLowerCase()
+          .includes(searchParams.get("query").toLowerCase())
+      )
+        score += 1;
+      result.score = score;
+    });
+
+    // Sort results based on the score
+    results.sort((a, b) => b.score - a.score);
 
     return results;
   };
-
 
   const renderSearchResults = () => {
     if (loading) {
