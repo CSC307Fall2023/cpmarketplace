@@ -1,10 +1,9 @@
 // components/SearchBar.js
 import React, { useState } from "react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import app from '../../firebase/firebaseConfig'
 
 // Styled components using MUI's styled utility for custom styles
 const Search = styled("div")(({ theme }) => ({
@@ -44,7 +43,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: "20ch",
+      width: "70ch",
     },
   },
 }));

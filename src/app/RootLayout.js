@@ -23,6 +23,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { usePathname } from "next/navigation";
 import localFont from "next/font/local";
+import logo from "../../public/logo3.png";
+import Image from "next/image";
 
 // Configure sans font
 const sans = localFont({
@@ -76,12 +78,24 @@ export default function RootLayout({ children, title }) {
           <AppBar position="static">
             <Container maxWidth="xl">
               <Toolbar disableGutters>
-                <AdbIcon
-                  sx={{
-                    display: { xs: "none", md: "flex", color: "white" },
-                    mr: 1,
+                {/* logo needs to go here */}
+                <div
+                  style={{
+                    display: "none",
+                    [theme.breakpoints.up("md")]: {
+                      display: "block", // changed from 'flex' since images are inline elements
+                    },
+                    marginRight: "8px",
                   }}
-                />
+                >
+                  <Image
+                    src="/../../public/logo1.png" // Make sure this path is correct
+                    alt="Logo"
+                    width={25}
+                    height={25}
+                  />
+                </div>
+
                 <Typography
                   variant="h6"
                   noWrap
@@ -99,7 +113,7 @@ export default function RootLayout({ children, title }) {
                 >
                   {title}
                 </Typography>
-                <Box width="400px">
+                <Box>
                   <Searchbar />
                 </Box>
                 <NavBar />

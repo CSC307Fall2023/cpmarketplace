@@ -11,8 +11,6 @@ export default function NavBar() {
     // { path: '/todos', name: 'ToDos' },
     { path: '/CreateListing', name: 'Create Listing'},
     { path: '/profile', name: 'profile'},
-    { path: '/search', name: 'search'}
-
   ];
 
   return (
