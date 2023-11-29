@@ -42,7 +42,6 @@ export async function createUser(userId, email) {
   await setDoc(userRef, {
     isAdmin: false,
     isStudent: false,
-    isVerified: false,
     name: "",
     profileImage: "",
     heroImage: "",
@@ -111,13 +110,13 @@ export async function getUser(userId) {
 
 export async function updateUser(userId, data) {
   const {
-    email, isVerified, isAdmin,
+    email, isAdmin,
     name, phoneNumber, location,
     profileImage, heroImage, isStudent,
     contactInfoVisibility, favoriteListings, favoriteUsers
   } = data;
 
-  const userData = {isAdmin, isStudent, isVerified, name, profileImage, heroImage, contactInfoVisibility};
+  const userData = {isAdmin, isStudent, name, profileImage, heroImage, contactInfoVisibility};
   const contactData = {email, phoneNumber, location};
   const favoritesData = {favoriteListings, favoriteUsers};
 

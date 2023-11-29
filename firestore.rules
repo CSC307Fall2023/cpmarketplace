@@ -17,13 +17,12 @@ service cloud.firestore {
       							&& request.auth.uid == userId
                     // Make sure user doesn't give themself permissions
                     && request.resource.data.isAdmin == false
-                    && request.resource.data.isVerified == false
                     && request.resource.data.isStudent == false;
       allow write: if request.auth != null
       						 && (request.auth.token.admin == true
                       || request.auth.uid == userId
                       	 // Make sure user doesn't give themself permissions
-                         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isAdmin', 'isVerified', 'isStudent']));
+                         && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['isAdmin', 'isStudent']));
 			
       match /private/contact {
       	// Allow account owner, students, and admin to read contact

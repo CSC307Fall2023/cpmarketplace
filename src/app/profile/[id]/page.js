@@ -217,7 +217,6 @@ export default function Profile({ params }) {
           <Grid item>
             <Typography variant="h4" gutterBottom>
               {user.name}
-              {user.isVerified && <Tooltip title='The user is a verified student.'><VerifiedIcon color="primary" /></Tooltip>}
               {user.isAdmin && <AdminBadge />}{" "}
               {/* Display the Admin badge if user is an admin */}
             </Typography>

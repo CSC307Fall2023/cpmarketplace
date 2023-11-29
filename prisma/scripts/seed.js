@@ -23,7 +23,6 @@ async function seed() {
       password: 'fakepassword', // In real scenarios, ensure this is hashed
       fullName: 'John Doe',
       isAdmin: false,
-      isVerified: true,
       isStudent: false,
       // other required fields
     },

@@ -1,7 +1,6 @@
 - users
   - {userId}
     - email: string
-    - isVerified: boolean
     - isAdmin: boolean
     - name: string
     - phoneNumber: string
