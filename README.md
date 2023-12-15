@@ -114,6 +114,10 @@ Alternatively, see the GitHub documentation on [creating a pull request](https:/
 
 If you encounter any issues, please open an issue in the repository, detailing the problem and steps to reproduce it.
 
+## Partially Implemented Features
+
+The delete account and reset password buttons on the setting page are functional. However, as of right now, they only work if the user has recently logged in and doen't need reauthentication.
+
 ## Roadmap
 
 - Implement a rating and review system for users and listings.
