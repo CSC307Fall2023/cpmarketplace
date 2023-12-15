@@ -50,7 +50,7 @@ cd slomarket
 
 3. Install dependencies:
 ```bash
-npm install
+npm install # you may need to add the -f flag to resolve errors (this doesn't break anything)
 ```
 
 4. Set up your Firebase configuration by creating a `.env.local` file in the root of your project and adding your Firebase keys: 
