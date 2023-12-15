@@ -116,7 +116,7 @@ If you encounter any issues, please open an issue in the repository, detailing t
 
 ## Partially Implemented Features
 
-- The delete account and reset password buttons on the setting page are functional. However, as of right now, they only work if the user has recently logged in and doen't need reauthentication.
+- The delete account and reset password buttons on the setting page are functional. However, as of right now, they only work if the user has recently logged in and doesn't require reauthentication.
 
 - The radio buttons do not adjust privacy settings.  They only update on the frontend.
 
