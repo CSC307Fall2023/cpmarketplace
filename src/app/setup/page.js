@@ -192,7 +192,7 @@ export default function Profile() {
       });
 
     // Check if all required fields are filled
-    if (!name || !phoneNumber || !location) {
+    if (!name || !phoneNumber || !locationInput) {
       setErrorMessage("Please fill in all required fields.");
       return false;
     }
