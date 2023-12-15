@@ -40,7 +40,7 @@ To install SLOMarket and run it using our Firebase instance (highly recommended)
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/slomarket.git
+git clone https://github.com/CSC307Fall2023/slomarket
 ```
 
 2. Navigate to the project directory:
